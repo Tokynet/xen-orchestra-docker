@@ -26,7 +26,8 @@ RUN yum -y install monit
 ADD monit-services /etc/monit.d/services
 
 # Fetch Xen-Orchestra sources from git stable branch
-RUN git clone -b master https://github.com/vatesfr/xen-orchestra /etc/xen-orchestra
+RUN git clone https://github.com/vatesfr/xen-orchestra /etc/xen-orchestra
+RUN cd /etc/xen-orchestra && git checkout tags/xo-server-v5.36.0
 
 # Run build tasks against sources
 RUN cd /etc/xen-orchestra && yarn && yarn build
