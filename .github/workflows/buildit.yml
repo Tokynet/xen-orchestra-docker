@@ -28,7 +28,7 @@ jobs:
     #Build ze containerz
     - name: Docker build
       run: |
-        docker build -t xen-orchestra . 
+        docker build -t tokynet/xen-orchestra . 
 
     # Push to docker hub
     - name: Docker push
