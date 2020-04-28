@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build XenOrchestra
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ toky-first ]
+  pull_request:
+    branches: [ toky-main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+    - name: Docker login
+      env:
+        DOCKERU: ${{ secrets.DOCKERU }}
+        DOCKERP: ${{ secrets.DOCKERP }}
+      run: |
+        docker login -u $DOCKERU -p $DOCKERP
+        
+    #Build ze containerz
+    - name: Docker build
+      run: |
+        docker build -t xen-orchestra . 
+
+    # Push to docker hub
+    - name: Docker push
+      run: |
+        docker push xen-orchestra
+
