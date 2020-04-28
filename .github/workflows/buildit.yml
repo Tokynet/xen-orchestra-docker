@@ -33,5 +33,5 @@ jobs:
     # Push to docker hub
     - name: Docker push
       run: |
-        docker push xen-orchestra
+        docker push tokynet/xen-orchestra
 
