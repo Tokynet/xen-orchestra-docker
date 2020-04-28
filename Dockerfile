@@ -7,6 +7,9 @@ MAINTAINER Roni Väyrynen <roni@vayrynen.info>
 # Node v8
 RUN curl -s -L https://rpm.nodesource.com/setup_8.x | bash -
 
+# Install deltarpm to ease yum downloads
+RUN yum install -y deltarpm
+
 # yarn for installing node packages
 RUN curl -s -o /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo
 RUN yum -y install yarn
@@ -24,6 +27,9 @@ RUN yum --enablerepo=forensics install -y libvhdi-tools
 # monit to keep an eye on processes
 RUN yum -y install monit
 ADD monit-services /etc/monit.d/services
+
+# Clean up yum downloads
+yum clean all
 
 # Fetch Xen-Orchestra sources from git stable branch
 RUN git clone -b master https://github.com/vatesfr/xen-orchestra /etc/xen-orchestra
