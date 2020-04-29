@@ -4,32 +4,27 @@ MAINTAINER Roni Väyrynen <roni@vayrynen.info>
 
 # Install set of dependencies to support running Xen-Orchestra
 
-# Node v8
-RUN curl -s -L https://rpm.nodesource.com/setup_8.x | bash -
-
 # Install deltarpm to ease yum downloads
-RUN yum install -y deltarpm
+RUN yum install -y deltarpm epel-release
 
 # yarn for installing node packages
 RUN curl -s -o /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo
-RUN yum -y install yarn
-
-# epel-release for various packages not available from base repo
-RUN yum -y install epel-release
+RUN wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
 
 # build dependencies, git for fetching source and redis server for storing data
-RUN yum -y install gcc gcc-c++ make openssl-devel redis libpng-devel python git nfs-utils cifs-utils
+RUN yum install -y gcc gcc-c++ make openssl-devel redis libpng-devel python git nfs-utils cifs-utils yarn monit cert-forensics-tools-release-el7.rpm
 
 # libvhdi-tools for file-level restore
-RUN rpm -ivh https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
 RUN yum --enablerepo=forensics install -y libvhdi-tools
-
-# monit to keep an eye on processes
-RUN yum -y install monit
-ADD monit-services /etc/monit.d/services
 
 # Clean up yum downloads
 RUN yum clean all
+
+# monit to keep an eye on processes
+ADD monit-services /etc/monit.d/services
+
+# Node v8
+RUN curl -s -L https://rpm.nodesource.com/setup_8.x | bash -
 
 # Fetch Xen-Orchestra sources from git stable branch
 RUN git clone -b master https://github.com/vatesfr/xen-orchestra /etc/xen-orchestra
