@@ -29,7 +29,7 @@ RUN yum -y install monit
 ADD monit-services /etc/monit.d/services
 
 # Clean up yum downloads
-yum clean all
+RUN yum clean all
 
 # Fetch Xen-Orchestra sources from git stable branch
 RUN git clone -b master https://github.com/vatesfr/xen-orchestra /etc/xen-orchestra
