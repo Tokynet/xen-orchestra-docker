@@ -9,7 +9,7 @@ RUN yum install -y deltarpm epel-release
 
 # yarn for installing node packages
 RUN curl -s -o /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo
-RUN wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
+RUN curl -s -O https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
 
 # build dependencies, git for fetching source and redis server for storing data
 RUN yum install -y gcc gcc-c++ make openssl-devel redis libpng-devel python git nfs-utils cifs-utils yarn monit cert-forensics-tools-release-el7.rpm
