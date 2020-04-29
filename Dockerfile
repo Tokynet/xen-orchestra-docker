@@ -3,6 +3,8 @@ FROM centos:7
 MAINTAINER Roni Väyrynen <roni@vayrynen.info>
 
 # Install set of dependencies to support running Xen-Orchestra
+# Node v8
+RUN curl -s -L https://rpm.nodesource.com/setup_8.x | bash -
 
 # Install deltarpm to ease yum downloads
 RUN yum install -y deltarpm epel-release
@@ -22,9 +24,6 @@ RUN yum clean all
 
 # monit to keep an eye on processes
 ADD monit-services /etc/monit.d/services
-
-# Node v8
-RUN curl -s -L https://rpm.nodesource.com/setup_8.x | bash -
 
 # Fetch Xen-Orchestra sources from git stable branch
 RUN git clone -b master https://github.com/vatesfr/xen-orchestra /etc/xen-orchestra
